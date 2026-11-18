@@ -8,7 +8,7 @@ monitor giving jobs to the right students.
 
 Setup:
     pip install crewai
-    set OPENAI_API_KEY (or GEMINI_API_KEY)
+    set ANTHROPIC_API_KEY
 
 Run:
     python 04_hierarchical_crew.py
@@ -23,19 +23,15 @@ try:
 except ImportError:
     pass
 
-if not (os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")):
+if not os.getenv("ANTHROPIC_API_KEY"):
     raise SystemExit(
-        "No API key found. Copy .env.example to .env and add GEMINI_API_KEY "
-        "or OPENAI_API_KEY (see README.md)."
+        "No API key found. Copy .env.example to .env and add ANTHROPIC_API_KEY "
+        "(see README.md)."
     )
 from crewai import Agent, Task, Crew, Process, LLM
 
-if os.getenv("GEMINI_API_KEY"):
-    worker_llm = LLM(model="gemini/gemini-2.5-flash")
-    manager_llm = LLM(model="gemini/gemini-2.5-flash")
-else:
-    worker_llm = LLM(model="gpt-4o-mini")
-    manager_llm = LLM(model="gpt-4o")  # a stronger model is better for managing
+worker_llm = LLM(model="anthropic/claude-haiku-5-5")
+manager_llm = LLM(model="anthropic/claude-sonnet-5-5")  # a stronger model is better for managing
 
 # ------------------------------------------------------------
 # Specialist agents (the manager is created automatically)

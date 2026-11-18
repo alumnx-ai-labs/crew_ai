@@ -6,11 +6,10 @@ Goal: build ONE agent that explains any topic in simple words.
 
 Setup (run once in your terminal):
     pip install crewai
-    # Option A (OpenAI):  set OPENAI_API_KEY
-    # Option B (Google Gemini, has a free tier): set GEMINI_API_KEY
+    Set ANTHROPIC_API_KEY
 
-    Windows (PowerShell):  $env:OPENAI_API_KEY="sk-..."
-    Mac/Linux:             export OPENAI_API_KEY="sk-..."
+    Windows (PowerShell):  $env:ANTHROPIC_API_KEY="sk-ant-..."
+    Mac/Linux:             export ANTHROPIC_API_KEY="sk-ant-..."
 
 Run:
     python 01_single_agent.py
@@ -25,20 +24,17 @@ try:
 except ImportError:
     pass
 
-if not (os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")):
+if not os.getenv("ANTHROPIC_API_KEY"):
     raise SystemExit(
-        "No API key found. Copy .env.example to .env and add GEMINI_API_KEY "
-        "or OPENAI_API_KEY (see README.md)."
+        "No API key found. Copy .env.example to .env and add ANTHROPIC_API_KEY "
+        "(see README.md)."
     )
 from crewai import Agent, Task, Crew, LLM
 
 # ------------------------------------------------------------
 # STEP 1: Choose the "brain" (the LLM) for the agent
 # ------------------------------------------------------------
-if os.getenv("GEMINI_API_KEY"):
-    llm = LLM(model="gemini/gemini-2.5-flash", temperature=0.3)
-else:
-    llm = LLM(model="gpt-4o-mini", temperature=0.3)  # uses OPENAI_API_KEY
+llm = LLM(model="anthropic/claude-haiku-5-5", temperature=0.3)  # uses ANTHROPIC_API_KEY
 
 # ------------------------------------------------------------
 # STEP 2: Create the Agent  (WHO does the work)

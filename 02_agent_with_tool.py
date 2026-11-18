@@ -8,7 +8,7 @@ Here we give our agent a calculator and a "word counter".
 
 Setup:
     pip install crewai
-    set OPENAI_API_KEY (or GEMINI_API_KEY)
+    set ANTHROPIC_API_KEY
 
 Run:
     python 02_agent_with_tool.py
@@ -23,19 +23,15 @@ try:
 except ImportError:
     pass
 
-if not (os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")):
+if not os.getenv("ANTHROPIC_API_KEY"):
     raise SystemExit(
-        "No API key found. Copy .env.example to .env and add GEMINI_API_KEY "
-        "or OPENAI_API_KEY (see README.md)."
+        "No API key found. Copy .env.example to .env and add ANTHROPIC_API_KEY "
+        "(see README.md)."
     )
 from crewai import Agent, Task, Crew, LLM
 from crewai.tools import tool
 
-llm = (
-    LLM(model="gemini/gemini-2.5-flash")
-    if os.getenv("GEMINI_API_KEY")
-    else LLM(model="gpt-4o-mini")
-)
+llm = LLM(model="anthropic/claude-haiku-5-5")
 
 
 # ------------------------------------------------------------

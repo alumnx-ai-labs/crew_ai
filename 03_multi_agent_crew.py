@@ -11,7 +11,7 @@ Each agent does ONE job well, and passes its work to the next.
 
 Setup:
     pip install crewai
-    set OPENAI_API_KEY (or GEMINI_API_KEY)
+    set ANTHROPIC_API_KEY
 
 Run:
     python 03_multi_agent_crew.py
@@ -26,18 +26,14 @@ try:
 except ImportError:
     pass
 
-if not (os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")):
+if not os.getenv("ANTHROPIC_API_KEY"):
     raise SystemExit(
-        "No API key found. Copy .env.example to .env and add GEMINI_API_KEY "
-        "or OPENAI_API_KEY (see README.md)."
+        "No API key found. Copy .env.example to .env and add ANTHROPIC_API_KEY "
+        "(see README.md)."
     )
 from crewai import Agent, Task, Crew, Process, LLM
 
-llm = (
-    LLM(model="gemini/gemini-2.5-flash", temperature=0.4)
-    if os.getenv("GEMINI_API_KEY")
-    else LLM(model="gpt-4o-mini", temperature=0.4)
-)
+llm = LLM(model="anthropic/claude-haiku-5-5", temperature=0.4)
 
 # ------------------------------------------------------------
 # STEP 1: Create the team (3 agents)

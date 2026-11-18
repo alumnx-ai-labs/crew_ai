@@ -11,7 +11,7 @@ Four runnable Python scripts that teach CrewAI step by step.
 
 ## Setup (one time)
 
-You need Python 3.10+ and an API key for **Gemini** (free tier) or **OpenAI**.
+You need Python 3.10+ and an **Anthropic** API key.
 
 **Windows (PowerShell)**
 ```powershell
@@ -35,14 +35,13 @@ If PowerShell blocks the activate script, run `Set-ExecutionPolicy -Scope Proces
 
 ## Add your API key
 
-Open `.env`, fill in one key and leave the other blank:
+Open `.env` and add your key:
 
 ```
-GEMINI_API_KEY=your-key
-OPENAI_API_KEY=
+ANTHROPIC_API_KEY=sk-ant-your-key
 ```
 
-The scripts load `.env` automatically. If both keys are filled in, Gemini is used (`gemini/gemini-2.5-flash`). Otherwise OpenAI is used (`gpt-4o-mini`, plus `gpt-4o` as the manager in script 04). Never share or commit your `.env`.
+The scripts load `.env` automatically and use Claude Haiku 5.5 (`anthropic/claude-haiku-5-5`), plus Claude Sonnet 5.5 as the manager in script 04. Never share or commit your `.env`.
 
 ## Run each file
 
@@ -64,7 +63,7 @@ python 04_hierarchical_crew.py
 
 | Problem | Fix |
 |---------|-----|
-| `No API key found` | Open `.env` and add `GEMINI_API_KEY` or `OPENAI_API_KEY` |
+| `No API key found` | Open `.env` and add `ANTHROPIC_API_KEY` |
 | `ModuleNotFoundError: No module named 'crewai'` | Activate `.venv`, then run `pip install -r requirements.txt` |
-| `429` or quota error | You hit the free-tier rate limit. Wait a minute and retry, or switch provider |
+| `429` or quota error | You hit the free-tier rate limit. Wait a minute and retry |
 | Script 04 is slow or costly | The manager makes extra LLM calls. This is normal for a hierarchical crew |
